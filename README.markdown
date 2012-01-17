@@ -314,6 +314,18 @@ F5 datagroup consists of f5_string_class and f5_external_class. f5_external_clas
       type           => 'CLASS_TYPE_ADDRESS',
     }
 
+F5 routetable manages 'static' and 'management' routing tables.
+
+    f5_routetable { 'static':
+      table => [
+        { destination => '0.0.0.0',
+          netmask     => '0.0.0.0',
+          gateway     => '10.0.0.1',
+          mtu         => 1500 },
+      ]
+    }
+
+
 ## Development
 
 The following section applies to developers of this module only.

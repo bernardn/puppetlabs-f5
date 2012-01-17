@@ -314,6 +314,94 @@ F5 datagroup consists of f5_string_class and f5_external_class. f5_external_clas
       type           => 'CLASS_TYPE_ADDRESS',
     }
 
+F5 user resource notes :
+
+    f5_user { 'username':
+      ensure          => 'present',
+      password        => {
+        'password'     => '$1$abcdef$TSUZRW2CK3aUh/W8JXyHF/',
+        'is_encrypted' => true
+      },
+      user_permission => {
+        '[All]' => 'USER_ROLE_ADMINISTRATOR',
+      },
+      login_shell     => '/bin/bash',
+      fullname        => 'Full Name of the User',
+    }
+
+F5 trunk resource notes :
+
+    f5_trunk { 'trunk_test_01':
+      ensure                             => 'present',
+      active_lacp_state                  => 'STATE_DISABLED',
+      distribution_hash_option           => 'DISTRIBUTION_HASH_OPTION_DST_MAC',
+      interface                          => [ '1.1', '1.2', '1.3', '1.4' ],
+      lacp_enabled_state                 => 'STATE_DISABLED',
+      lacp_timeout_option                => 'LACP_TIMEOUT_SHORT',
+      link_selection_policy              => 'LINK_SELECTION_AUTO',
+      stp_enabled_state                  => 'STATE_DISABLED',
+      stp_protocol_detection_reset_state => 'STATE_DISABLED',
+    }
+
+F5 VLAN resource notes :
+
+    f5_vlan { 'vlan_test_01':
+      ensure                 => 'present',
+      vlan_id                => 127,
+      member                 => [
+        { member_name => '1.2', 'member_type' =>  'MEMBER_INTERFACE', 'tag_state' => 'MEMBER_TAGGED' },
+        { member_name => '1.3', 'member_type' =>  'MEMBER_INTERFACE', 'tag_state' => 'MEMBER_TAGGED' },
+        { member_name => '1.4', 'member_type' =>  'MEMBER_INTERFACE', 'tag_state' => 'MEMBER_TAGGED' },
+        { member_name => '1.5', 'member_type' =>  'MEMBER_INTERFACE', 'tag_state' => 'MEMBER_UNTAGGED' },
+      ],
+      failsafe_state         => 'STATE_DISABLED',
+      failsafe_timeout       => 60,
+      
+      failsafe_action        => 'HA_ACTION_RESTART_ALL',
+      learning_mode          => 'LEARNING_MODE_ENABLE_FORWARD',
+      mtu                    => 1000,
+      static_forwarding      => [
+        { mac_address => '02:02:29:97:79:92', 'interface_name' => '1.2', 'interface_type' => 'MEMBER_INTERFACE' },
+        { mac_address => '02:02:29:97:79:93', 'interface_name' => '1.3', 'interface_type' => 'MEMBER_INTERFACE' },
+        { mac_address => '02:02:29:97:79:95', 'interface_name' => '1.5', 'interface_type' => 'MEMBER_INTERFACE' },  
+      ],
+      source_check_state     => 'STATE_ENABLED',
+      mac_masquerade_address => '02:02:29:97:79:90',
+    }  
+
+F5 selfip resource notes :
+
+    f5_selfip { 'fd88:d0a3:9645:6b83::':
+      ensure         => 'present',
+      netmask        => 'ffff:ffff:ffff:ffff:0000:0000:0000:0000',
+      floating_state => 'STATE_DISABLED',
+      unit_id        => 0,
+      vlan           => 'vlan_test_01'
+    }
+
+F5 routetable manages 'static' and 'management' routing tables.
+
+    f5_routetable { 'static':
+      table => [
+        { destination => '0.0.0.0',
+          netmask     => '0.0.0.0',
+          gateway     => '10.0.0.1',
+          mtu         => 1500 },
+      ]
+    }
+
+F5 license manages the device's licence file.
+
+    f5_license { 'license':
+      license_file_data => file('/path/to/bigip.licence'),
+    }
+
+F5 inet sets hostname and ntp server. There is no API for setting the DNS servers.
+
+    f5_inet { 'bigip-t1.fednot.be':
+      ntp_server_address => 'ntp.fednot.be',
+    }
+  
 ## Development
 
 The following section applies to developers of this module only.

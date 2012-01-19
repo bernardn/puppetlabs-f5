@@ -399,8 +399,8 @@ F5 license manages the device's licence file.
 
 F5 inet sets hostname and ntp server. There is no API for setting the DNS servers.
 
-    f5_inet { 'bigip-t1.fednot.be':
-      ntp_server_address => 'ntp.fednot.be',
+    f5_inet { 'f5.puppetlabs.lan':
+      ntp_server_address => 'ntp.puppetlabs.lan',
     }
   
 ## Development

@@ -153,9 +153,9 @@ Puppet::Type.newtype(:f5_monitor) do
   newproperty(:template_transparent_mode) do
     desc "The monitor template transparent mode."
 
-    newvalues(:true, :false)
+    #newvalues(:true, :false)
   end
-
+  
   #newproperty(:template_user_defined_string_property) do
   #  desc "The monitor load balancing method."
   #end

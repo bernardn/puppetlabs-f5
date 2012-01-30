@@ -24,6 +24,12 @@ Puppet::Type.newtype(:f5_profileclientssl) do
   newproperty(:certificate_file) do
     desc "The certificate filenames to be used by BIG-IP acting as an SSL
     server."
+    def should_to_s(newvalue)
+      newvalue.inspect
+    end
+    def is_to_s(currentvalue)
+      currentvalue.inspect
+    end    
   end
 
   newproperty(:key_file) do

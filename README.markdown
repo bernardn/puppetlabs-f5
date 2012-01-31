@@ -525,6 +525,20 @@ F5 inet sets hostname and ntp server. There is no API for setting the DNS server
       ntp_server_address => 'ntp.puppetlabs.lan',
     }
   
+F5 provision resource notes :
+
+    Provision level can be NONE, MINIMUM, NOMINAL, DEDICATED or CUSTOM. The custom level allows you specify a value between 0 and 255 for CPU, disk and memory usage.
+    
+    f5_provision { 'TMOS_MODULE_LTM':
+      level               => 'PROVISION_LEVEL_NOMINAL',
+    }
+    f5_provision { 'TMOS_MODULE_ASM':
+      custom_cpu_ratio    => '127',
+      custom_disk_ratio   => '127',
+      custom_memory_ratio => '127',
+      level               => 'PROVISION_LEVEL_CUSTOM',
+    }
+
 ## Development
 
 The following section applies to developers of this module only.
